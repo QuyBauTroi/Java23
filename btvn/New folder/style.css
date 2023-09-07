@@ -1,0 +1,26 @@
+.header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #5460ca;
+  }
+  .header .flex{
+    align-items: center;
+  }
+  .header .flex h1{
+    color: #fff;
+  }
+  section{
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+ .home .imgage img{
+    width: 100%;
+ }
+ .bruh h2{
+    color: #2420208c;
+ }
+ 
