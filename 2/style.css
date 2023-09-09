@@ -1,0 +1,41 @@
+*{
+    margin: auto;       
+    padding: 0;
+}
+.table{
+    width: 22%;
+}
+.td{
+    font-size: 20px;
+    padding-left: 5px;
+}
+.ty input{
+    width: 85%;
+    height: 20px;
+    padding-left: 5px;
+}
+.uu{
+    padding:5px;
+}
+.uu .rr{
+    padding: 5px;
+   margin-right: 20px;
+}
+.uu .qq{
+    padding: 5px;
+
+}
+.tp {
+    padding: 5px;
+}
+.ii{
+    margin-left: 5px;
+    padding-left: 10px;
+}
+.trc{
+    padding: 5px;
+    margin: 10px;
+}
+.vv{
+    padding-left: 5px;
+}
