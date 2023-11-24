@@ -45,8 +45,20 @@ public class ProductService {
     //  - Hiển thị tất cả sản phẩm //
     public void viewProduct(Map<Integer,Product> productMap){
         for (Product product : productMap.values()) {
-            System.out.println(product);
+            printProductInfo(product);
         }
+    }
+
+
+    // Hàm in thông tin sản phẩm
+    private static void printProductInfo(Product product) {
+        System.out.print("ID: " + product.getId());
+        System.out.print(" || Tên: " + product.getName());
+        System.out.print(" || Giá: " + product.getPrice());
+        System.out.print(" || Mô tả: " + product.getDescription());
+        System.out.print(" || Số lượng: " + product.getQuantity());
+        System.out.println(" || Tình trạng: " + product.getStatus());
+
     }
 
 
@@ -59,7 +71,7 @@ public class ProductService {
         int productId = utils.inputInt(scanner);
         Product product = productMap.get(productId);
         if (product != null) {
-            System.out.println("ID:" + product.getId() + "Tên sp:" + product.getName() + "Tình trạng:" + product.getStatus() + "Giá:" + product.getPrice() + "Mô tả:" + product.getDescription() + "Số lượng:" + product.getQuantity());
+            System.out.println("ID:" + product.getId() + " || Tên sp:" + product.getName() + " || Tình trạng:" + product.getStatus() + " || Giá:" + product.getPrice() + " || Mô tả:" + product.getDescription() + " || Số lượng:" + product.getQuantity());
             productMap.remove(productId);
             System.out.println("Sản phẩm đã được xóa khỏi danh sách.");
         } else {
@@ -129,12 +141,12 @@ public class ProductService {
                 }
 
                 System.out.println("Thông tin sản phẩm sau khi cập nhật:");
-                System.out.println("ID: " + product.getId());
-                System.out.print("Tên: " + product.getName());
-                System.out.print("Tình trạng: " + product.getStatus());
-                System.out.print("Giá: " + product.getPrice());
-                System.out.print("Mô tả: " + product.getDescription());
-                System.out.print("Số lượng: " + product.getQuantity());
+                System.out.print("ID: " + product.getId());
+                System.out.print(" || Tên: " + product.getName());
+                System.out.print(" || Tình trạng: " + product.getStatus());
+                System.out.print(" || Giá: " + product.getPrice());
+                System.out.print(" || Mô tả: " + product.getDescription());
+                System.out.println(" || Số lượng: " + product.getQuantity());
             }while (true);
         } else {
             System.out.println("Không tìm thấy sản phẩm với ID đã nhập.");

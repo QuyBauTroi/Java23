@@ -11,8 +11,19 @@ public class Orders {
     private int numberOfProducts;
     private double total;
     private User user;
+    private Approve approval;
 
 
+    public Orders( int productId, LocalDate orderDate, STATUS status, int numberOfProducts, double total, Approve approval, User user) {
+        this.id = ++autoId;
+        this.productId = productId;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.numberOfProducts = numberOfProducts;
+        this.total = total;
+        this.user = user;
+        this.approval = approval;
+    }
 
     public Orders(int productId, LocalDate orderDate, STATUS status, int numberOfProducts, double total, User user) {
         this.id = ++autoId;
@@ -22,6 +33,22 @@ public class Orders {
         this.numberOfProducts = numberOfProducts;
         this.total = total;
         this.user = user;
+    }
+
+    public STATUS getStatus() {
+        return status;
+    }
+
+    public void setStatus(STATUS status) {
+        this.status = status;
+    }
+
+    public Approve getApproval() {
+        return approval;
+    }
+
+    public void setApproval(Approve approval) {
+        this.approval = approval;
     }
 
     public Orders() {
@@ -35,7 +62,6 @@ public class Orders {
     public void setUser(User user) {
         this.user = user;
     }
-
 
 
     public int getNumberOfProducts() {
@@ -78,9 +104,6 @@ public class Orders {
         this.orderDate = orderDate;
     }
 
-    public STATUS getStatus() {
-        return status;
-    }
 
 
     public double getTotal() {

@@ -40,7 +40,7 @@ public class CustomerService {
                     orderService.viewUserOrders(orders, product);
                     break;
                 case 4:
-                    userService.infoMenu(scanner, user);
+                    userService.information(scanner, user);
                     break;
                 case 5:
                     userService.updateUsername(scanner, users, user);

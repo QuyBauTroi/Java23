@@ -12,6 +12,7 @@ import java.util.Scanner;
 
 public class UserService {
     Utils utils=new Utils();
+
     // Phần đăng ký tài khoản người dùng ( chỉ người dùng được đăng ký )
     public void inputRegister(Scanner scanner, ArrayList<User> users){
         System.out.println("ĐĂNG KÝ");
@@ -48,6 +49,9 @@ public class UserService {
                 }
             }
         }
+
+
+
 
 
 
@@ -90,17 +94,19 @@ public class UserService {
 
 
 
+
+    // Phương thức in ra danh sách nhân viên
     public void displayStaffInformation(ArrayList<User> users) {
         System.out.println("=======DANH SÁCH NHÂN VIÊN=======");
 
         for (User user : users) {
             if (user.getRole() == 1) {
-                System.out.println("Username: " + user.getUsername()  );
-                System.out.print("--Email: " + user.getEmail()  );
-                System.out.print("--ID:" + user.getId());
-                System.out.print("--Tên: " + user.getName());
-                System.out.print("--Số Điện Thoại: " + user.getPhoneNumber());
-                System.out.print("--Địa Chỉ: " + user.getAddress());
+                System.out.print("Username : " + user.getUsername()  );
+                System.out.print(" || Email  : " + user.getEmail()  );
+                System.out.print(" || ID nhân viên :" + user.getId());
+                System.out.print(" || Tên nhân viên : " + user.getName());
+                System.out.print(" || Số Điện Thoại: " + user.getPhoneNumber());
+                System.out.println(" || Địa Chỉ : " + user.getAddress());
 
             }
         }
@@ -108,11 +114,15 @@ public class UserService {
 
 
 
+
+
+
+    // Phương thức đăng nhập tài khoản
     public boolean inputLogin(Scanner scanner, ArrayList<User> users, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders, Product product){
         StaffAccountService staffAccountService = new StaffAccountService();
         ManagerAccountService managerAccountService = new ManagerAccountService();
         CustomerService customerService = new CustomerService();
-        String selectLoop="";
+        String select="";
         boolean isUserNameRight = false;
         boolean isContinue = true;
         do {
@@ -127,7 +137,7 @@ public class UserService {
                     if (password.equals(userValue.getPassword())) {
                         System.out.println("Đăng nhập thành công!!!");
                         if (userValue.getRole()==1){
-                            staffAccountService.menuStaff(scanner,users,userValue,userService,productMap,orders);
+                            staffAccountService.menuStaff(scanner,users,userValue,userService,productMap,orders,product);
                         }else if (userValue.getRole()==2){
                             customerService.menuCustomer(scanner,users,userValue,userService,productMap,orders,product);
                         }else {
@@ -139,8 +149,8 @@ public class UserService {
                         System.out.println("1-Đăng nhập lại");
                         System.out.println("2-Quên mật khẩu");
                         System.out.print("Mời bạn chọn:");
-                        int select = utils.inputInt(scanner);
-                        switch (select) {
+                        int choice = utils.inputInt(scanner);
+                        switch (choice) {
                             case 1 -> isContinue = inputLogin(scanner, users, userService, productMap, orders,product);
                             case 2 -> forgetPassword(scanner, users);
                         }
@@ -151,9 +161,9 @@ public class UserService {
             if(!isUserNameRight){
                 System.out.println("Kiểm tra lại username");
                 System.out.print("Bạn có muốn nhập lại không(Y/N): ");
-                selectLoop = scanner.nextLine();
+                select = scanner.nextLine();
             }
-        }while (selectLoop.equalsIgnoreCase("Y"));
+        }while (select.equalsIgnoreCase("Y"));
         return isContinue;
     }
 
@@ -162,6 +172,8 @@ public class UserService {
 
 
 
+
+    // Phương thức lấy lại mật khẩu đã mất
     private void forgetPassword(Scanner scanner, ArrayList<User> users){
         boolean isEmailRight =false;
         System.out.print("Mời bạn nhập email:");
@@ -179,8 +191,8 @@ public class UserService {
         if (!isEmailRight){
             System.out.println("Kiểm tra lại email");
             System.out.print("Bạn có muốn nhập lại không (Y/N): ");
-            String selectLoop = scanner.nextLine();
-            if (selectLoop.equalsIgnoreCase("y")){
+            String select = scanner.nextLine();
+            if (select.equalsIgnoreCase("y")){
                 forgetPassword(scanner,users);
             }
         }
@@ -190,7 +202,9 @@ public class UserService {
 
 
 
-    public void infoMenu(Scanner scanner, User user){
+
+    // Phương thức hiển thị thông tin cá nhân và cập nhật thông tin cá nhân
+    public void information(Scanner scanner, User user){
         boolean isOut=false;
         do {
             System.out.println("Hồ sơ cá nhân:");
@@ -207,20 +221,13 @@ public class UserService {
         }while (!isOut);
     }
     public void printInfo(User user){
-        System.out.print("Tên của bạn là:");
-        System.out.print(user.getName());
-        System.out.println("SDT của bạn là:");
-        System.out.print(user.getPhoneNumber());
-        System.out.println("Địa chỉ của bạn là:");
-        System.out.print(user.getAddress());
+        System.out.print("Tên của bạn là: ");
+        System.out.println(user.getName());
+        System.out.print("SDT của bạn là: ");
+        System.out.println(user.getPhoneNumber());
+        System.out.print("Địa chỉ của bạn là:");
+        System.out.println(user.getAddress());
     }
-
-
-
-
-
-
-    //  ----- Menu hiển thị phương thức thay đổi thông tin tìa khoản -------   //
     public void updateInfoMenu(Scanner scanner, User user){
         boolean isOut=false;
         do {
@@ -230,7 +237,7 @@ public class UserService {
             System.out.println("3 - Cập nhật địa chỉ");
             System.out.println("4 - Thoát hồ sơ cá nhân");
             System.out.print("Mời bạn chọn:");
-            int select=Integer.parseInt(scanner.nextLine());
+            int select=utils.inputInt(scanner);
             switch (select) {
                 case 1 -> updateName(scanner, user);
                 case 2 -> updatePhoneNumber(scanner, user);
@@ -255,23 +262,45 @@ public class UserService {
         boolean isError = checkUsername(username, users);
         if (!isError){
             user.setUsername(username);
+            System.out.println("Cap nhat username thanh cong");
         }
     }
-    public void updateEmail(Scanner scanner,ArrayList<User> users, User user){
-        System.out.print("Mời bạn nhập email mới:");
-        String email = scanner.nextLine();
-        boolean isError = checkEmail(email, users);
-        if (!isError){
-            user.setEmail(email);
-        }
+    public void updateEmail(Scanner scanner, ArrayList<User> users, User user) {
+        boolean validEmail = false;
+        do {
+            try {
+                System.out.print("Mời bạn nhập email mới:");
+                String email = scanner.nextLine();
+                // Kiểm tra định dạng email và xem email đã tồn tại trong danh sách người dùng chưa
+                boolean isError = checkEmail(email, users);
+                if (!isError) {
+                    user.setEmail(email);
+                    validEmail = true;
+                    System.out.println("Cap nhat email thanh cong");
+                }
+            } catch (Exception e) {
+                System.out.println("Đã xảy ra lỗi khi nhập email. Vui lòng nhập lại.");
+                scanner.nextLine();
+            }
+        } while (!validEmail);
     }
-    public void updatePassword(Scanner scanner, User user){
-        System.out.print("Mời bạn nhập password mới:");
-        String password= scanner.nextLine();
-        boolean isError = checkPassword(password);
-        if (!isError) {
-            user.setPassword(password);
-        }
+    public void updatePassword(Scanner scanner, User user) {
+        boolean validPassword = false;
+        do {
+            try {
+                System.out.print("Mời bạn nhập password mới:");
+                String password = scanner.nextLine();
+                boolean isError = checkPassword(password);// Kiểm tra định dạng password
+                if (!isError) {
+                    user.setPassword(password);
+                    validPassword = true;
+                    System.out.println("Cap nhat password thanh cong");
+                }
+            } catch (Exception e) {
+                System.out.println("Đã xảy ra lỗi khi nhập password. Vui lòng nhập lại.");
+                scanner.nextLine();
+            }
+        } while (!validPassword);
     }
 
 
@@ -324,12 +353,12 @@ public class UserService {
             for (User userValue : users){
                 if (userValue.getEmail().equals(email)){
                     isError = true;
-                    System.out.println("Email này đã được sử dụng!");
+                    System.out.println("Email này ton tai, vui long nhap lai");
                     break;
                 }
             }
         }else{
-            System.out.println("Email sai định dạng !");
+            System.out.println("Sai định dạng Email, vui long nhập lại ");
             isError = true;
         }
         return isError;
@@ -338,7 +367,7 @@ public class UserService {
         String regex = "^(?=.*[A-Z])(?=.*[.,-_;])[A-Za-z.,-_;]{7,15}$";
         boolean isError = false;
         if (!password.matches(regex)) {
-            System.out.println("Mật khẩu sai định dạng");
+            System.out.println("Mật khẩu sai định dạng , vui lòng nhập lại");
             isError = true;
         }
         return isError;
