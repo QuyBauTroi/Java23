@@ -11,10 +11,10 @@ public class Orders {
     private int numberOfProducts;
     private double total;
     private User user;
-    private Approve approval;
+    private OrderStatus orderStatus;
 
 
-    public Orders( int productId, LocalDate orderDate, STATUS status, int numberOfProducts, double total, Approve approval, User user) {
+    public Orders(int productId, LocalDate orderDate, STATUS status, int numberOfProducts, double total, OrderStatus approval, User user) {
         this.id = ++autoId;
         this.productId = productId;
         this.orderDate = orderDate;
@@ -22,7 +22,7 @@ public class Orders {
         this.numberOfProducts = numberOfProducts;
         this.total = total;
         this.user = user;
-        this.approval = approval;
+        this.orderStatus = approval;
     }
 
     public Orders(int productId, LocalDate orderDate, STATUS status, int numberOfProducts, double total, User user) {
@@ -43,12 +43,12 @@ public class Orders {
         this.status = status;
     }
 
-    public Approve getApproval() {
-        return approval;
+    public OrderStatus getApproval() {
+        return orderStatus;
     }
 
-    public void setApproval(Approve approval) {
-        this.approval = approval;
+    public void setApproval(OrderStatus approval) {
+        this.orderStatus = approval;
     }
 
     public Orders() {
@@ -124,14 +124,15 @@ public class Orders {
 
     @Override
     public String toString() {
-        return "Orders{" +
+        return "Orders[" +
                 "id=" + id +
-                ", orderDate=" + orderDate +
-                ", status=" + status +
-                ", total=" + total +
-                ", customer=" + user +
-                '}';
+                " || productId=" + productId +
+                " || orderDate=" + orderDate +
+                " || status=" + status +
+                " || numberOfProducts=" + numberOfProducts +
+                " || total=" + total +
+                " || OrderStatus=" + orderStatus +
+                " || user=" + user +
+                ']';
     }
-
-
 }

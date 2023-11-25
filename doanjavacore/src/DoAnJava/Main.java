@@ -22,7 +22,7 @@ public class Main {
 
 
         Map<Integer, Product> productMap = new HashMap<>();
-        Product product = new Product("iphone X",5000000,"dc",5, STATUS.OLD);
+        Product product = new Product("iphone X",5000000,"Màn hình Super Retina OLED 5.8 inch, vi xử lý A11 Bionic mạnh mẽ, camera kép 12MP cho chất lượng hình ảnh tuyệt vời, hỗ trợ công nghệ nhận diện khuôn mặt Face ID, và tính năng sạc không dây.",5, STATUS.OLD);
         productMap.put(product.getId(),product);
 
 
@@ -34,6 +34,6 @@ public class Main {
 
         UserService userService=new UserService();
         Menu menu=new Menu();
-        menu.optionMenu(scanner,users,userService,productMap,orders,product);
+        menu.optionMenu(scanner,users,userService,productMap,orders);
     }
 }

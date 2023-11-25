@@ -1,5 +1,5 @@
 package DoAnJava.entities;
 
-public enum Approve {
+public enum OrderStatus {
     PENDING_APPROVAL, APPROVED, CANCELED;
 }

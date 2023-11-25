@@ -16,7 +16,7 @@ public class CustomerService {
     ProductService productService = new ProductService();
     OrderService orderService = new OrderService();
 
-    public void menuCustomer(Scanner scanner, ArrayList<User> users, User user, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders, Product product){
+    public void menuCustomer(Scanner scanner, ArrayList<User> users, User user, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders){
         int choose;
         do {
             System.out.println("Chào mừng "+user.getUsername()+", bạn có thể thực hiện các công việc sau:");
@@ -37,7 +37,7 @@ public class CustomerService {
                     orderService.order(scanner, user, orders, productMap);
                     break;
                 case 3:
-                    orderService.viewUserOrders(orders, product);
+                    orderService.viewUserOrders(orders,user,productMap);
                     break;
                 case 4:
                     userService.information(scanner, user);

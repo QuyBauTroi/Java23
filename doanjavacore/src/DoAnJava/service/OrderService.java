@@ -11,6 +11,7 @@ public class OrderService {
     Utils utils = new Utils();
     ProductService productService = new ProductService();
     // Phương thức order sản phẩm //
+
     public void order(Scanner scanner , User user, ArrayList<Orders> orders, Map<Integer, Product> productMap) {
         // Hiển thị danh sách sản phẩm
         productService.viewProduct(productMap);
@@ -67,18 +68,14 @@ public class OrderService {
                 // Nhập mã giảm giá (nếu có)
                 System.out.print("Bạn có mã giảm giá không? (y/n): ");
                 String discountChoice = utils.inputString(scanner);
-
                 String discountCode;
                 double discountPercentage = 0;
-
                 if ("y".equalsIgnoreCase(discountChoice)) {
                     boolean isValidDiscount = false;
-
                     do {
                         try {
                             System.out.print("Nhập mã giảm giá: ");
                             discountCode = utils.inputString(scanner);
-
                             // Kiểm tra mã giảm giá có hợp lệ và áp dụng giảm giá
                             if (isValidDiscountCode(discountCode)) {
                                 discountPercentage = getDiscountPercentage(discountCode);
@@ -102,9 +99,9 @@ public class OrderService {
                 double total = numberOfProducts * product.getPrice() * (1 - discountPercentage);
 
 
-                Orders order = new Orders(productId, orderDate, status, numberOfProducts, total,Approve.PENDING_APPROVAL, user);
+                Orders order = new Orders(productId, orderDate, status, numberOfProducts, total, OrderStatus.PENDING_APPROVAL, user);
                 orders.add(order);
-                viewUserOrders(orders,product);
+                viewUserOrders(orders,user,productMap);
                 System.out.println("Đơn hàng của bạn đã được thêm vào giỏ hàng.");
             } else {
                 System.out.println("Không tìm thấy sản phẩm với ID đã nhập.");
@@ -118,22 +115,32 @@ public class OrderService {
 
 
 
-    // Phương thức tin ra đơn hàng của bản thân
-    public void viewUserOrders(ArrayList<Orders> orders, Product product) {
-        System.out.println("=======DANH SÁCH ĐƠN HÀNG CỦA BẠN=======");
-        if (orders.isEmpty()) {
-            System.out.println("Bạn chưa có đơn hàng nào.");
-        } else {
-            for (Orders order : orders) {
-                System.out.print("ID Sản phẩm: " + product.getId());
-                System.out.print("|| Tên sản phẩm: " + product.getName());
-                System.out.print("|| Tình trạng: " + product.getStatus());
-                System.out.print("|| Giá: " + product.getPrice());
-                System.out.print("|| Mô tả: " + product.getDescription());
-                System.out.print("|| Số lượng sản phẩm order: " + order.getNumberOfProducts());
-                System.out.print("|| Trang thai: " + order.getApproval());
-                System.out.println("|| Tổng tiền: $" + order.getTotal());
+    // Phương thức in ra đơn hàng của người dùng
+    public void viewUserOrders(ArrayList<Orders> orders, User user, Map<Integer, Product> productMap) {
+        System.out.println("=======DANH SÁCH ĐƠN HÀNG CỦA " + user.getName() + "=======");
+        // Kiểm tra xem người dùng có đơn hàng không
+        boolean hasOrders = false;
+        for (Orders order : orders) {
+            if (Objects.equals(order.getUser(), user)) {
+                Product product = productMap.get(order.getProductId());
+                if (product != null) {
+                    System.out.print("ID : " + order.getId());
+                    System.out.print(" || Tên sản phẩm: " + product.getName());
+                    System.out.print(" || Tình trạng: " + product.getStatus());
+                    System.out.print(" || Giá: " + product.getPrice());
+                    System.out.print(" || Mô tả: " + product.getDescription());
+                    System.out.print(" || Số lượng sản phẩm order: " + order.getNumberOfProducts());
+                    System.out.print(" || Trạng thái: " + order.getApproval());
+                    System.out.println(" || Tổng tiền: $" + order.getTotal());
+
+                    // Đã tìm thấy ít nhất một đơn hàng
+                    hasOrders = true;
+                }
             }
+        }
+        // Nếu không có đơn hàng, thông báo cho người dùng
+        if (!hasOrders) {
+            System.out.println("Bạn hiện chưa có đơn hàng nào.");
         }
     }
 
@@ -142,38 +149,55 @@ public class OrderService {
 
 
     // Phương thức xác nhận đơn hàng
-    public void confirmOrder(Scanner scanner, ArrayList<Orders> orders,Product product) {
+    public void confirmOrder(Scanner scanner, ArrayList<Orders> orders,Map<Integer, Product> productMap) {
         // Hiển thị danh sách đơn hàng chờ xác nhận
-        viewPendingConfirmationOrders(orders,product);
+        viewPendingConfirmationOrders(orders,productMap);
+        String choice;
+        do{
         System.out.print("Nhập ID đơn hàng bạn muốn xác nhận: ");
         int orderId = utils.inputInt(scanner);
         Orders orderToConfirm = findOrderById(orderId, orders);
-        if (orderToConfirm != null && orderToConfirm.getApproval() == Approve.PENDING_APPROVAL) {
-            // Cập nhật trạng thái đơn hàng thành APPROVED
-            orderToConfirm.setApproval(Approve.APPROVED);
-            System.out.println("Đơn hàng đã được xác nhận!");
+        if (orderToConfirm != null && orderToConfirm.getApproval() == OrderStatus.PENDING_APPROVAL) {
+            // Hỏi người dùng có muốn xác nhận đơn hàng hay hủy không
+            System.out.println("1- Xác nhận đơn hàng");
+            System.out.println("2- Hủy đơn hàng");
+            System.out.print("Enter your choice: ");
+            int userChoice = utils.inputInt(scanner);
+
+            // Xử lý lựa chọn của người dùng
+            switch (userChoice) {
+                case 1 -> {orderToConfirm.setApproval(OrderStatus.APPROVED);System.out.println("Đơn hàng đã được xác nhận!");}// Xác nhận đơn hàng
+                case 2 -> {orderToConfirm.setApproval(OrderStatus.CANCELED);System.out.println("Đơn hàng đã huỷ!");}// Huỷ đơn hàng
+                default -> System.out.println("Lựa chọn không hợp lệ. Đơn hàng không được xác nhận.");
+            }
         } else {
             System.out.println("Không tìm thấy đơn hàng chờ xác nhận hoặc đơn hàng đã được xác nhận trước đó.");
         }
+            System.out.println("Ban co muon tiep tuc duyet don khong ? (Y/N)");
+        choice = scanner.nextLine();
+        }while (choice.equalsIgnoreCase("y"));
     }
 
 
 
 
     // Phương thức hiển thị đơn hàng chờ xác nhận
-    public void viewPendingConfirmationOrders(ArrayList<Orders> orders,Product product) {
+    public void viewPendingConfirmationOrders(ArrayList<Orders> orders,Map<Integer, Product> productMap) {
         System.out.println("=======DANH SÁCH ĐƠN HÀNG CHỜ XÁC NHẬN=======");
         for (Orders order : orders) {
-            if (order.getApproval() == Approve.PENDING_APPROVAL && order.getApproval() == Approve.PENDING_APPROVAL) {
+            if (order.getApproval() == OrderStatus.PENDING_APPROVAL && order.getApproval() == OrderStatus.PENDING_APPROVAL) {
                 System.out.println("Thông tin đơn hàng:");
-                System.out.print("ID: " + order.getId());
-                System.out.print("|| Tên sản phẩm: " + product.getName());
-                System.out.print("|| Tình trạng: " + product.getStatus());
-                System.out.print("|| Giá: " + product.getPrice());
-                System.out.print("|| Mô tả: " + product.getDescription());
-                System.out.print("|| Số lượng sản phẩm order: " + order.getNumberOfProducts());
-                System.out.print("|| Trang thai: " + order.getApproval());
-                System.out.println("Tổng tiền: $" + order.getTotal());
+                Product product = productMap.get(order.getProductId());
+                if (product != null) {
+                    System.out.print("ID : " + order.getId());
+                    System.out.print(" || Tên sản phẩm: " + product.getName());
+                    System.out.print(" || Tình trạng: " + product.getStatus());
+                    System.out.print(" || Giá: " + product.getPrice());
+                    System.out.print(" || Mô tả: " + product.getDescription());
+                    System.out.print(" || Số lượng sản phẩm order: " + order.getNumberOfProducts());
+                    System.out.print(" || Trạng thái: " + order.getApproval());
+                    System.out.println(" || Tổng tiền: $" + order.getTotal());
+                }
             }
         }
     }
@@ -182,19 +206,44 @@ public class OrderService {
 
 
     // Phương thức in ra thông tin đơn hàng đã được duyệt đơn
-    public void viewApprovedOrders(ArrayList<Orders> orders,Product product) {
+    public void viewApprovedOrders(ArrayList<Orders> orders,Map<Integer, Product> productMap) {
         System.out.println("=======DANH SÁCH ĐƠN HÀNG ĐÃ ĐƯỢC XÁC NHẬN=======");
         for (Orders order : orders) {
-            if (order.getApproval() == Approve.APPROVED) {
-                System.out.println("Thông tin đơn hàng:");
-                System.out.println("ID: " + order.getId());
-                System.out.print("|| Tên sản phẩm: " + product.getName());
-                System.out.print("|| Tình trạng: " + product.getStatus());
-                System.out.print("|| Giá: " + product.getPrice());
-                System.out.print("|| Mô tả: " + product.getDescription());
-                System.out.print("|| Số lượng sản phẩm order: " + order.getNumberOfProducts());
-                System.out.print("|| Trang thai: " + order.getApproval());
-                System.out.println("Tổng tiền: $" + order.getTotal());
+            if (order.getApproval() == OrderStatus.APPROVED) {
+                Product product = productMap.get(order.getProductId());
+                if (product != null) {
+                    System.out.print("ID : " + order.getId());
+                    System.out.print(" || Tên sản phẩm: " + product.getName());
+                    System.out.print(" || Tình trạng: " + product.getStatus());
+                    System.out.print(" || Giá: " + product.getPrice());
+                    System.out.print(" || Mô tả: " + product.getDescription());
+                    System.out.print(" || Số lượng sản phẩm order: " + order.getNumberOfProducts());
+                    System.out.print(" || Trạng thái: " + order.getApproval());
+                    System.out.println(" || Tổng tiền: $" + order.getTotal());
+                }
+            }
+        }
+    }
+
+
+
+
+    // Phương thức in ra thông tin đơn hàng đã huỷ
+    public void viewCanceledOrders(ArrayList<Orders> orders,Map<Integer, Product> productMap) {
+        System.out.println("=======DANH SÁCH ĐƠN HÀNG ĐÃ ĐƯỢC XÁC NHẬN=======");
+        for (Orders order : orders) {
+            if (order.getApproval() == OrderStatus.CANCELED) {
+                Product product = productMap.get(order.getProductId());
+                if (product != null) {
+                    System.out.print("ID : " + order.getId());
+                    System.out.print(" || Tên sản phẩm: " + product.getName());
+                    System.out.print(" || Tình trạng: " + product.getStatus());
+                    System.out.print(" || Giá: " + product.getPrice());
+                    System.out.print(" || Mô tả: " + product.getDescription());
+                    System.out.print(" || Số lượng sản phẩm order: " + order.getNumberOfProducts());
+                    System.out.print(" || Trạng thái: " + order.getApproval());
+                    System.out.println(" || Tổng tiền: $" + order.getTotal());
+                }
             }
         }
     }

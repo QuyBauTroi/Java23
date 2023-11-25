@@ -118,7 +118,7 @@ public class UserService {
 
 
     // Phương thức đăng nhập tài khoản
-    public boolean inputLogin(Scanner scanner, ArrayList<User> users, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders, Product product){
+    public boolean inputLogin(Scanner scanner, ArrayList<User> users, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders){
         StaffAccountService staffAccountService = new StaffAccountService();
         ManagerAccountService managerAccountService = new ManagerAccountService();
         CustomerService customerService = new CustomerService();
@@ -137,9 +137,9 @@ public class UserService {
                     if (password.equals(userValue.getPassword())) {
                         System.out.println("Đăng nhập thành công!!!");
                         if (userValue.getRole()==1){
-                            staffAccountService.menuStaff(scanner,users,userValue,userService,productMap,orders,product);
+                            staffAccountService.menuStaff(scanner,users,userValue,userService,productMap,orders);
                         }else if (userValue.getRole()==2){
-                            customerService.menuCustomer(scanner,users,userValue,userService,productMap,orders,product);
+                            customerService.menuCustomer(scanner,users,userValue,userService,productMap,orders);
                         }else {
                             managerAccountService.menuManager(scanner,users,userService,productMap);
                         }
@@ -151,7 +151,7 @@ public class UserService {
                         System.out.print("Mời bạn chọn:");
                         int choice = utils.inputInt(scanner);
                         switch (choice) {
-                            case 1 -> isContinue = inputLogin(scanner, users, userService, productMap, orders,product);
+                            case 1 -> isContinue = inputLogin(scanner, users, userService, productMap, orders);
                             case 2 -> forgetPassword(scanner, users);
                         }
                     }

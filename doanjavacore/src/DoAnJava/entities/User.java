@@ -112,11 +112,9 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
+                " || name='" + name +
+                " || phoneNumber='" + phoneNumber +
+                " || address='" + address +
                 '}';
     }
 }

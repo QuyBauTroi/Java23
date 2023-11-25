@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Menu {
     ProductService productService = new ProductService();
     Utils utils = new Utils();
-    public void optionMenu(Scanner scanner, ArrayList<User> users, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders, Product product){
+    public void optionMenu(Scanner scanner, ArrayList<User> users, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders){
         boolean isContinue = true;
         do {
             System.out.println("1-Xem tất cả sản phẩm");
@@ -25,7 +25,7 @@ public class Menu {
             int select= utils.inputInt(scanner);
             switch (select) {
                 case 1 -> productService.viewProduct(productMap);
-                case 2 -> isContinue = userService.inputLogin(scanner, users, userService, productMap, orders, product);
+                case 2 -> isContinue = userService.inputLogin(scanner, users, userService, productMap, orders);
                 case 3 -> userService.inputRegister(scanner, users);
             }
         }while (isContinue);
