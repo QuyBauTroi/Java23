@@ -18,11 +18,11 @@ public class ManagerAccountService {
     public void menuManager(Scanner scanner, ArrayList<User> users, UserService userService, Map<Integer, Product> productMap) {
         int choice;
         do {
-        System.out.println("1 - Tạo tài khoản cho nhân viên");
-        System.out.println("2 - Đăng bài bán sản phẩm");
-        System.out.println("3. Xem tất cả sản phẩm");
-        System.out.println("4. Cập nhật sản phẩm");
-        System.out.println("5. Xoá sản phẩm");
+        System.out.println("1 - Tao tai khoan nhan vien");
+        System.out.println("2 - Dang bai ban san pham");
+        System.out.println("3. Xem tat ca san pham");
+        System.out.println("4. Cap nhat san pham");
+        System.out.println("5. Xoa san pham");
         System.out.println("6. Xem thong tin cua tat ca nhan vien");
         System.out.println("7. Đăng xuất");
         System.out.println("---------- Enter your choice -----------");

@@ -24,10 +24,8 @@ public class CustomerService {
             System.out.println("2. Order san pham");
             System.out.println("3. Xem thong tin don hang cua ban than");
             System.out.println("4. Xem thong tin ca nhan");
-            System.out.println("5. Thay doi username");
-            System.out.println("6. Thay doi mat khau");
-            System.out.println("7. Thay doi email");
-            System.out.println("8. Dang xuat");
+            System.out.println("5. Bao mat tai khoan");
+            System.out.println("6. Dang xuat");
             choose = utils.inputInt(scanner);
             switch (choose){
                 case 1:
@@ -43,15 +41,9 @@ public class CustomerService {
                     userService.information(scanner, user);
                     break;
                 case 5:
-                    userService.updateUsername(scanner, users, user);
+                    informationCustomer(scanner, user, users, userService);
                     break;
                 case 6:
-                    userService.updatePassword(scanner, user);
-                    break;
-                case 7:
-                    userService.updateEmail(scanner, users, user);
-                    break;
-                case 8:
                     return;
                 default:
                     System.out.println("Lua chọn không hợp lệ , vui lòng chọn lại");
@@ -60,6 +52,23 @@ public class CustomerService {
         }while (true);
     }
 
-
+    public void informationCustomer(Scanner scanner, User user,ArrayList<User> users, UserService userService){
+        boolean isOut=false;
+        do {
+            System.out.println("Thay doi thong tin tai khoan:");
+            System.out.println("1 - Thay doi username");
+            System.out.println("2 - Thay doi mat khau");
+            System.out.println("3 - Thay doi email");
+            System.out.println("4 - Thoat");
+            System.out.print("Mời bạn chọn:");
+            int select=utils.inputInt(scanner);
+            switch (select) {
+                case 1 -> userService.updateUsername(scanner, users, user);
+                case 2 -> userService.updatePassword(scanner, user);
+                case 3 -> userService.updateEmail(scanner, users, user);
+                case 4 -> isOut = true;
+            }
+        }while (!isOut);
+    }
 }
 

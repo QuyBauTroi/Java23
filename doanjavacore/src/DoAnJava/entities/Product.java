@@ -1,6 +1,7 @@
 package DoAnJava.entities;
 
 public class Product {
+
     private static int autoId;
     private int id;
     private String name;

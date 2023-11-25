@@ -45,21 +45,21 @@ public class ProductService {
     //  - Hiển thị tất cả sản phẩm //
     public void viewProduct(Map<Integer,Product> productMap){
         for (Product product : productMap.values()) {
-            printProductInfo(product);
+            // Hàm in thông tin sản phẩm
+
+                System.out.print("ID: " + product.getId());
+                System.out.print("  || Tên: " + product.getName());
+                System.out.print("  || Giá: " + product.getPrice());
+                System.out.print("  || Mô tả: " + product.getDescription());
+                System.out.print("  || Số lượng: " + product.getQuantity());
+                System.out.println("  1|| Tình trạng: " + product.getStatus());
+
+
         }
     }
 
 
-    // Hàm in thông tin sản phẩm
-    private static void printProductInfo(Product product) {
-        System.out.print("ID: " + product.getId());
-        System.out.print(" || Tên: " + product.getName());
-        System.out.print(" || Giá: " + product.getPrice());
-        System.out.print(" || Mô tả: " + product.getDescription());
-        System.out.print(" || Số lượng: " + product.getQuantity());
-        System.out.println(" || Tình trạng: " + product.getStatus());
 
-    }
 
 
 

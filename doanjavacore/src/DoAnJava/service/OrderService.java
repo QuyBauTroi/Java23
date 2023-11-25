@@ -15,6 +15,7 @@ public class OrderService {
     public void order(Scanner scanner , User user, ArrayList<Orders> orders, Map<Integer, Product> productMap) {
         // Hiển thị danh sách sản phẩm
         productService.viewProduct(productMap);
+
         String choice;
         do {
             // Nhập sản phẩm muốn mua bằng ID
@@ -56,7 +57,7 @@ public class OrderService {
                             }
                         }
                         if (!foundMatchingStatus) {
-                            System.out.println("Không có sản phẩm có tình trạng này. Vui lòng nhập lại.");
+                            System.out.println("Khong co san pham nao co Status nay , vui long nhap lai");
                             isValidStatus = false;
                         }
                     } catch (Exception e) {
@@ -91,25 +92,27 @@ public class OrderService {
                 }
 
 
+
                 // Ngày dặt hàng (ngày hiện tại)
                 LocalDate orderDate = LocalDate.now();
 
 
                 //  Tính tiền và in ra đơn hàng
-                double total = numberOfProducts * product.getPrice() * (1 - discountPercentage);
+                double total = numberOfProducts * product.getPrice()*(1-discountPercentage);
 
 
                 Orders order = new Orders(productId, orderDate, status, numberOfProducts, total, OrderStatus.PENDING_APPROVAL, user);
                 orders.add(order);
-                viewUserOrders(orders,user,productMap);
-                System.out.println("Đơn hàng của bạn đã được thêm vào giỏ hàng.");
+
+                System.out.println("Don hang cua ban da duoc them vao gio hang.");
             } else {
-                System.out.println("Không tìm thấy sản phẩm với ID đã nhập.");
+                System.out.println("Khong tim thay ID da nhap.");
             }
             System.out.print("Ban co muon tiep tuc order san pham khong ? (Y/N)");
              choice= scanner.nextLine();
         }while (choice.equalsIgnoreCase("y"));
 
+        viewUserOrders(orders,user,productMap);
     }
 
 
@@ -117,33 +120,44 @@ public class OrderService {
 
     // Phương thức in ra đơn hàng của người dùng
     public void viewUserOrders(ArrayList<Orders> orders, User user, Map<Integer, Product> productMap) {
-        System.out.println("=======DANH SÁCH ĐƠN HÀNG CỦA " + user.getName() + "=======");
+        System.out.println("=======DANH SACH DON HANG CUA " + user.getName() + "=======");
+
         // Kiểm tra xem người dùng có đơn hàng không
         boolean hasOrders = false;
+
+        // Tham số để lưu tổng tiền của đơn hàng
+        double totalOrderAmount = 0;
+
         for (Orders order : orders) {
             if (Objects.equals(order.getUser(), user)) {
                 Product product = productMap.get(order.getProductId());
                 if (product != null) {
                     System.out.print("ID : " + order.getId());
-                    System.out.print(" || Tên sản phẩm: " + product.getName());
-                    System.out.print(" || Tình trạng: " + product.getStatus());
-                    System.out.print(" || Giá: " + product.getPrice());
-                    System.out.print(" || Mô tả: " + product.getDescription());
-                    System.out.print(" || Số lượng sản phẩm order: " + order.getNumberOfProducts());
-                    System.out.print(" || Trạng thái: " + order.getApproval());
-                    System.out.println(" || Tổng tiền: $" + order.getTotal());
+                    System.out.print(" || Ten SP: " + product.getName());
+                    System.out.print(" || STATUS: " + product.getStatus());
+                    System.out.print(" || Gia: " + product.getPrice());
+                    System.out.print(" || Mo ta: " + product.getDescription());
+                    System.out.print(" || So luong sp order: " + order.getNumberOfProducts());
+                    System.out.print(" || Trang thai don hang: " + order.getApproval());
+                    System.out.println(" || Thanh tien: " +order.getTotal());
+
+                    // Cộng dồn số tiền của từng đơn hàng
+                    totalOrderAmount += order.getTotal();
 
                     // Đã tìm thấy ít nhất một đơn hàng
                     hasOrders = true;
                 }
             }
         }
+
+        // In tổng tiền của đơn hàng
+        System.out.println("Tong tien tat ca cac don hang: $" + totalOrderAmount);
+
         // Nếu không có đơn hàng, thông báo cho người dùng
         if (!hasOrders) {
-            System.out.println("Bạn hiện chưa có đơn hàng nào.");
+            System.out.println("Bạn hiện chưa có đơn hàng nào.");
         }
     }
-
 
 
 
@@ -228,9 +242,11 @@ public class OrderService {
 
 
 
-    // Phương thức in ra thông tin đơn hàng đã huỷ
-    public void viewCanceledOrders(ArrayList<Orders> orders,Map<Integer, Product> productMap) {
-        System.out.println("=======DANH SÁCH ĐƠN HÀNG ĐÃ ĐƯỢC XÁC NHẬN=======");
+    // Phương thức in ra thông tin đơn hàng đã hủy
+    public void viewCanceledOrders(ArrayList<Orders> orders, Map<Integer, Product> productMap) {
+        System.out.println("=======DANH SÁCH ĐƠN HÀNG ĐÃ HỦY=======");
+        boolean hasCancelledOrders = false;
+
         for (Orders order : orders) {
             if (order.getApproval() == OrderStatus.CANCELED) {
                 Product product = productMap.get(order.getProductId());
@@ -243,8 +259,16 @@ public class OrderService {
                     System.out.print(" || Số lượng sản phẩm order: " + order.getNumberOfProducts());
                     System.out.print(" || Trạng thái: " + order.getApproval());
                     System.out.println(" || Tổng tiền: $" + order.getTotal());
+
+                    // Đã tìm thấy ít nhất một đơn hàng đã hủy
+                    hasCancelledOrders = true;
                 }
             }
+        }
+
+        // Nếu không có đơn hàng đã hủy, thông báo cho người dùng
+        if (!hasCancelledOrders) {
+            System.out.println("Không có đơn hàng đã hủy.");
         }
     }
 
@@ -274,8 +298,6 @@ public class OrderService {
     }
 
 
-
-
     // Logic để kiểm tra xem mã giảm giá có hợp lệ hay không
     private boolean isValidDiscountCode (String code){
         List<String> validDiscountCodes = Arrays.asList("DISCOUNT10", "DISCOUNT20", "DISCOUNT30");
@@ -294,4 +316,7 @@ public class OrderService {
             default -> 0; // Mặc định = 0 nếu không có mã
         };
     }
+
+
+
 }

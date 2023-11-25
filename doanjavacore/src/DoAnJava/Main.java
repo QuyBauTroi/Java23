@@ -22,8 +22,26 @@ public class Main {
 
 
         Map<Integer, Product> productMap = new HashMap<>();
-        Product product = new Product("iphone X",5000000,"Màn hình Super Retina OLED 5.8 inch, vi xử lý A11 Bionic mạnh mẽ, camera kép 12MP cho chất lượng hình ảnh tuyệt vời, hỗ trợ công nghệ nhận diện khuôn mặt Face ID, và tính năng sạc không dây.",5, STATUS.OLD);
+        Product product = new Product("iphone X",5000000,"Màn hình Super Retina OLED 5.8 inch, vi xử lý A11 Bionic , camera kép 12MP ",5, STATUS.OLD);
+        Product product1 = new Product("iphone Xs",6000000,"Màn hình Super Retina OLED 5.8 inch, vi xử lý A12 Bionic , camera kép 12MP ",5, STATUS.OLD);
+        Product product2 = new Product("iphone Xs Max",7000000,"Màn hình Super Retina OLED 6.5 inch, vi xử lý A12 Bionic , camera kép 12MP ",5, STATUS.OLD);
+        Product product3 = new Product("iphone 11",8000000,"Màn hình Super Retina OLED 5.8 inch, vi xử lý A12 Bionic , camera kép 12MP ",5, STATUS.OLD);
+        Product product4 = new Product("iphone 11 Pro",9000000,"Màn hình Super Retina OLED 5.8 inch, vi xử lý A13 Bionic , camera kép 12MP ",5, STATUS.OLD);
+        Product product5 = new Product("iphone 11 Pro Max",10000000,"Màn hình Super Retina OLED 6.5 inch, vi xử lý A13 Bionic , camera kép 12MP ",5, STATUS.OLD);
+        Product product6 = new Product("iphone 12 Pro",14000000,"Màn hình Super Retina OLED 6.1 inch, vi xử lý A14 Bionic , camera kép 12MP ",5, STATUS.OLD);
+        Product product7 = new Product("iphone 12 Pro Max",16000000,"Màn hình Super Retina OLED 6,7 inch, vi xử lý A14 Bionic , camera kép 12MP ",5, STATUS.NEW);
+        Product product8 = new Product("iphone 13 Pro Max",20000000,"Màn hình Super Retina OLED 6.7 inch, vi xử lý A15 Bionic , camera kép 12MP ",5, STATUS.NEW);
+        Product product9 = new Product("iphone 14 Pro Max",22000000,"Màn hình Super Retina OLED 6.7 inch, vi xử lý A16 Bionic , camera kép 48MP ",5, STATUS.NEW);
         productMap.put(product.getId(),product);
+        productMap.put(product1.getId(),product1);
+        productMap.put(product2.getId(),product2);
+        productMap.put(product3.getId(),product3);
+        productMap.put(product4.getId(),product4);
+        productMap.put(product5.getId(),product5);
+        productMap.put(product6.getId(),product6);
+        productMap.put(product7.getId(),product7);
+        productMap.put(product8.getId(),product8);
+        productMap.put(product9.getId(),product9);
 
 
 
