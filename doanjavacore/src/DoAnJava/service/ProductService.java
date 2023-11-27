@@ -48,11 +48,11 @@ public class ProductService {
             // Hàm in thông tin sản phẩm
 
                 System.out.print("ID: " + product.getId());
-                System.out.print("  || Tên: " + product.getName());
-                System.out.print("  || Giá: " + product.getPrice());
-                System.out.print("  || Mô tả: " + product.getDescription());
-                System.out.print("  || Số lượng: " + product.getQuantity());
-                System.out.println("  1|| Tình trạng: " + product.getStatus());
+                System.out.print("  || Ten: " + product.getName());
+                System.out.print("  || Gia: " + product.getPrice());
+                System.out.print("  || Mo ta: " + product.getDescription());
+                System.out.print("  || So luong: " + product.getQuantity());
+                System.out.println("  || Tinh trang: " + product.getStatus());
 
 
         }
@@ -84,19 +84,17 @@ public class ProductService {
 
     // - Cập nhập , Thay đổi thông tin của sản phẩm
     public void updateProductByFindId(Scanner scanner,Map<Integer,Product> productMap){
+        viewProduct(productMap);
         System.out.println("Cập nhật thông tin sản phẩm");
         System.out.print("Nhập ID sản phẩm cần cập nhật: ");
         int productId = utils.inputInt(scanner);
         Product product = productMap.get(productId);
+        System.out.println("Chọn thông tin bạn muốn thay đổi");
         if (product != null) {
             do {
-                System.out.println("chọn thông tin bạn muốn thay đổi");
-                System.out.println("1. Thay đổi tên sản phẩm");
-                System.out.println("2. Thay đổi trạng thái sản phẩm");
-                System.out.println("3. Thay đổi giá của sản phẩm");
-                System.out.println("4. Thay đổi phần mô tả về sản phẩm");
-                System.out.println("5. Thay đổi số lượng của sản phẩm");
-                System.out.println("0. Thoát");
+                System.out.println("------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println("1. Thay đổi tên sản phẩm                         2. Thay đổi trạng thái sản phẩm                        3. Thay đổi giá của sản phẩm");
+                System.out.println("4. Thay đổi phần mô tả về sản phẩm               5. Thay đổi số lượng của sản phẩm                      0. Thoát");
                 int choose = utils.inputInt(scanner);
                 switch (choose) {
                     case 1:

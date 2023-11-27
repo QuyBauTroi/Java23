@@ -18,10 +18,11 @@ public class Menu {
     public void optionMenu(Scanner scanner, ArrayList<User> users, UserService userService, Map<Integer, Product> productMap, ArrayList<Orders> orders){
         boolean isContinue = true;
         do {
-            System.out.println("1-Xem tất cả sản phẩm");
-            System.out.println("2-Đăng nhập");
-            System.out.println("3-Dăng ký");
-            System.out.println("Mời bạn lựa chọn: ");
+            System.out.println("==== Chao mung ban den QuyStore ====");
+            System.out.println("1-Xem tat ca san pham");
+            System.out.println("2-Dang nhap");
+            System.out.println("3-Dang ky");
+            System.out.println("Enter your choice: ");
             int select= utils.inputInt(scanner);
             switch (select) {
                 case 1 -> productService.viewProduct(productMap);

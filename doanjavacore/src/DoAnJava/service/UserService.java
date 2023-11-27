@@ -166,22 +166,7 @@ public class UserService {
 
 
 
-    // Phương thức in ra danh sách nhân viên
-    public void displayStaffInformation(ArrayList<User> users) {
-        System.out.println("=======DANH SÁCH NHÂN VIÊN=======");
 
-        for (User user : users) {
-            if (user.getRole() == 1) {
-                System.out.print("Username : " + user.getUsername()  );
-                System.out.print(" || Email  : " + user.getEmail()  );
-                System.out.print(" || ID nhân viên :" + user.getId());
-                System.out.print(" || Tên nhân viên : " + user.getName());
-                System.out.print(" || Số Điện Thoại: " + user.getPhoneNumber());
-                System.out.println(" || Địa Chỉ : " + user.getAddress());
-
-            }
-        }
-    }
 
 
 
@@ -217,8 +202,7 @@ public class UserService {
                     } else {
                         System.out.println("Mật khẩu sai!");
                         System.out.println("Mời bạn chọn:");
-                        System.out.println("1-Đăng nhập lại");
-                        System.out.println("2-Quên mật khẩu");
+                        System.out.println("1-Đăng nhập lại                         2-Quên mật khẩu");
                         System.out.print("Enter your choice:");
                         int choice = utils.inputInt(scanner);
                         switch (choice) {
@@ -279,9 +263,7 @@ public class UserService {
         boolean isOut=false;
         do {
             System.out.println("Hồ sơ cá nhân:");
-            System.out.println("1 - Thông tin cá nhân");
-            System.out.println("2 - Cập nhật thông tin cá nhân");
-            System.out.println("3 - Thoát hồ sơ cá nhân");
+            System.out.println("1 - Thông tin cá nhân                           2 - Cập nhật thông tin cá nhân                              3 - Thoát hồ sơ cá nhân");
             System.out.print("Mời bạn chọn:");
             int select=utils.inputInt(scanner);
             switch (select) {
@@ -303,11 +285,8 @@ public class UserService {
         boolean isOut=false;
         do {
             System.out.println("Cập nhật thông tin cá nhân:");
-            System.out.println("1 - Cập nhật tên");
-            System.out.println("2 - Cập nhật SĐT");
-            System.out.println("3 - Cập nhật địa chỉ");
-            System.out.println("4 - Thoát hồ sơ cá nhân");
-            System.out.print("Mời bạn chọn:");
+            System.out.println("1 - Cap nhat ten                2 - Cap nhat SĐT                   3 - Cap nhat dia chi                 4 - Thoat");
+            System.out.print("Enter your choice:");
             int select=utils.inputInt(scanner);
             switch (select) {
                 case 1 -> updateName(scanner, user);
