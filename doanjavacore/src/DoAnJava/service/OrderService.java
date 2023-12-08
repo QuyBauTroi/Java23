@@ -41,23 +41,24 @@ public class OrderService {
 
 
                 //  Nhap Status và kiểm tra status //
-                boolean isValidStatus = false;
                 STATUS status = null;
+                boolean isValidStatus = false;
+
                 while (!isValidStatus) {
-                    System.out.print("Nhap tinh trang san pham: (NEW/OLD)");
+                    System.out.print("Nhap tinh trang san pham (NEW/OLD): ");
                     String typeString = scanner.nextLine().toUpperCase();
+
                     try {
                         status = STATUS.valueOf(typeString);
                         isValidStatus = true;
-                        boolean foundMatchingStatus = false;
-                        for (Product product1 : productMap.values()) {
-                            if (product1.getStatus() == status) {
-                                foundMatchingStatus = true;
-                                break;
-                            }
-                        }
+
+                        // Kiểm tra xem có sản phẩm nào có status như vậy không
+                        STATUS finalStatus = status;
+                        boolean foundMatchingStatus = productMap.values().stream()
+                                .anyMatch( Product -> product.getStatus() == finalStatus);
+
                         if (!foundMatchingStatus) {
-                            System.out.println("Khong co san pham nao co Status nay , vui long nhap lai");
+                            System.out.println("Khong co san pham nao co Status nay, vui long nhap lai.");
                             isValidStatus = false;
                         }
                     } catch (Exception e) {
@@ -118,7 +119,8 @@ public class OrderService {
 
     public void viewAllOrderUser(ArrayList<Orders> orders, User user, Map<Integer, Product> productMap){
         System.out.println("=======DANH SACH TAT CA DON HANG CUA BAN =======");
-        boolean hasOrders = false;  // Kiểm tra xem người dùng có đơn hàng không
+        // Kiểm tra xem người dùng có đơn hàng không
+        boolean hasOrders = false;
         for (Orders order : orders) {
             if (Objects.equals(order.getUser(), user)) {
                     Product product = productMap.get(order.getProductId());
